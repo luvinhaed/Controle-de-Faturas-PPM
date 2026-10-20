@@ -1,0 +1,13 @@
+PONTO DE SUBSTITUICAO DA LOGO (versao on-line)
+==============================================
+
+O arquivo oficial da logo NAO acompanha o projeto (nenhuma marca foi recriada).
+Enquanto nao houver logo oficial, o cabecalho mostra apenas "Equatorial" em texto.
+
+Para usar a logo oficial:
+  1. Envie o arquivo oficial para esta pasta (marca/) no repositorio do GitHub,
+     com o nome logo.svg (preferencial) ou logo.png (fundo transparente, ~240x60 px).
+  2. No arquivo config.js, preencha:  LOGO: "marca/logo.svg"
+  3. Aguarde a publicacao do GitHub Pages (1 a 2 minutos) e atualize a pagina (Ctrl+F5).
+
+A logo aparece sobre fundo azul-marinho; use a versao clara/branca da marca.

@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Controle de Faturas do Poder Público</title>
+  <link rel="stylesheet" href="css/estilo.css">
+  <!-- Bibliotecas embarcadas (sem CDN) e configuração pública do Supabase -->
+  <script src="js/vendor/supabase.js"></script>
+  <script src="js/vendor/exceljs.min.js"></script>
+  <script src="config.js"></script>
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <div id="app"><p class="carregando-inicial">Carregando...</p></div>
+  <div id="avisos" aria-live="polite"></div>
+  <noscript><p class="carregando-inicial">Ative o JavaScript do navegador para usar o sistema.</p></noscript>
+</body>
+</html>
