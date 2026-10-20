@@ -15,5 +15,5 @@ window.CF_CONFIG = {
   SUPABASE_ANON_KEY: "sb_publishable_UHupxNhOtZv1u1iw1aIEPA_AX7-M_5L",
   // Logo oficial (opcional): envie o arquivo para a pasta marca/ e informe o caminho,
   // por exemplo "marca/logo.svg". Deixe "" para mostrar apenas o nome em texto.
-  LOGO: "logo.png",
+  LOGO: "marca/logo.png",
 };
