@@ -11,7 +11,7 @@
 //    SUPABASE_ANON_KEY = chave "anon public" ou "publishable"
 // =====================================================================
 window.CF_CONFIG = {
-  SUPABASE_URL: "https://zuujgomslboqowrvhcvg.supabase.co/rest/v1/",
+  SUPABASE_URL: "https://zuujgomslboqowrvhcvg.supabase.co",
   SUPABASE_ANON_KEY: "sb_publishable_UHupxNhOtZv1u1iw1aIEPA_AX7-M_5L",
   // Logo oficial (opcional): envie o arquivo para a pasta marca/ e informe o caminho,
   // por exemplo "marca/logo.svg". Deixe "" para mostrar apenas o nome em texto.
