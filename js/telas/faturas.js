@@ -24,7 +24,7 @@ const NCOL = COLUNAS.length;
 
 export async function telaFaturas(c, estado) {
   const admin = ehAdmin(estado);
-  const f = (estado.filtros.faturas ||= { municipio: "todos", mes: "", busca: "", ocultar_pagas: false, ordem: "vencimento", direcao: "asc", pagina: 1 });
+  const f = (estado.filtros.faturas ||= { municipio: "todos", mes: "", busca: "", ocultar_pagas: false, somente_vencidas: false, ordem: "vencimento", direcao: "asc", pagina: 1 });
   let municipios = [];
   let pendentes = 0;
   let requisicao = 0;
@@ -51,6 +51,8 @@ export async function telaFaturas(c, estado) {
   busca.addEventListener("input", debounce(() => { f.busca = busca.value.trim(); f.pagina = 1; carregar(); }));
   const ocultar = el("input", { type: "checkbox", checked: f.ocultar_pagas });
   ocultar.addEventListener("change", () => { f.ocultar_pagas = ocultar.checked; f.pagina = 1; carregar(); });
+  const vencidas = el("input", { type: "checkbox", checked: !!f.somente_vencidas });
+  vencidas.addEventListener("change", () => { f.somente_vencidas = vencidas.checked; f.pagina = 1; carregar(); });
   const exportar = el("button", { class: "btn btn-secundario", type: "button", onclick: () => abrirExportacao(estado) }, icone("baixar"), "Exportar carteira");
 
   const filtros = el("div", { class: "filtros" },
@@ -62,6 +64,7 @@ export async function telaFaturas(c, estado) {
     el("label", { class: "filtro" }, el("span", { text: "Mês de vencimento" }), mesSel),
     el("label", { class: "filtro filtro-busca" }, el("span", { text: "Busca" }), busca),
     el("label", { class: "filtro-check" }, ocultar, " Ocultar pagas"),
+    el("label", { class: "filtro-check" }, vencidas, " Mostrar apenas vencidas"),
     el("div", { class: "filtro-direita" }, exportar),
   );
 
@@ -110,7 +113,7 @@ export async function telaFaturas(c, estado) {
     try {
       resp = await get(`/api/faturas${qs({
         carteira: carteiraParam(estado), municipio: f.municipio, mes: f.mes, busca: f.busca,
-        ocultar_pagas: f.ocultar_pagas ? "1" : "", ordem: f.ordem, direcao: f.direcao, pagina: f.pagina,
+        ocultar_pagas: f.ocultar_pagas ? "1" : "", somente_vencidas: f.somente_vencidas ? "1" : "", ordem: f.ordem, direcao: f.direcao, pagina: f.pagina,
       })}`);
     } catch (e) {
       if (minha !== requisicao) return;
@@ -122,7 +125,7 @@ export async function telaFaturas(c, estado) {
     desenharCabecalho(resp);
     limpar(tbody);
     if (!resp.itens.length) {
-      const semDados = !municipios.length && !pendentes && !f.busca && !f.mes;
+      const semDados = !municipios.length && !pendentes && !f.busca && !f.mes && !f.somente_vencidas && !f.ocultar_pagas;
       tbody.append(linhaEstado(NCOL, semDados
         ? "Ainda não há faturas nesta carteira. O administrador precisa importar a planilha do mês."
         : "Nenhuma fatura encontrada para os filtros escolhidos.", "vazio"));
@@ -139,7 +142,7 @@ export async function telaFaturas(c, estado) {
       try {
         const novo = await post(`/api/faturas/${item.id}/pagamento`, { paga: marca.checked, versao: item.versao });
         toast(novo.paga ? "Fatura marcada como paga." : "Pagamento desmarcado.", "sucesso", 2500);
-        if (f.ocultar_pagas && novo.paga) { carregar(); return; }
+        if ((f.ocultar_pagas || f.somente_vencidas) && novo.paga) { carregar(); return; }
         Object.assign(item, novo); desenharLinha(item, tr);
       } catch (e) {
         toast(mensagemErro(e), "erro"); marca.checked = item.paga;
